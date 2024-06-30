@@ -20,12 +20,16 @@ function isSomeOfKind(groups: RankGroup, count: number): boolean {
 }
 
 export function isFlush(cards: Card[]): boolean {
+  // at least 5 cards are required
+  if (cards.length < 5) return false;
   // checks if all cards in the input array have the same suit
   const firstSuit = cards[0].suit;
   return cards.every(card => card.suit === firstSuit);
 }
 
 export function isStraight(cards: Card[]): boolean {
+  // at least 5 cards are required
+  if (cards.length < 5) return false;
   // checks if a given array of cards forms a straight sequence based on their ranks
   for (let i = 1; i < cards.length; i++) {
     if (rankValue(cards[i].rank) !== rankValue(cards[i - 1].rank) + 1) {
@@ -36,6 +40,8 @@ export function isStraight(cards: Card[]): boolean {
 }
 
 export function isStraightFlush(cards: Card[]): boolean {
+  // at least 5 cards are required
+  if (cards.length < 5) return false;
   // checks if a given set of cards forms a straight flush.
   return isFlush(cards) && isStraight(cards);
 }
@@ -67,6 +73,8 @@ export function isTwoPair(cards: Card[]): boolean {
 }
 
 export function isFullHouse(cards: Card[]): boolean {
+  // at least 5 cards are required
+  if (cards.length < 5) return false;
   // checks if a given set of cards forms a full house hand in a card game.
   const groups = groupByRank(cards);
   return Object.keys(groups).length === 2 && isSomeOfKind(groups, 3);

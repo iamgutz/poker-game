@@ -1,8 +1,8 @@
-import { RANK_VALUES } from './constants';
+import { RANK_VALUES, SUITS } from './constants';
 import { Card } from './definitions';
 
 export function generateDeck(): Card[] {
-  const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+  const suits = Object.values(SUITS);
   const ranks = Object.keys(RANK_VALUES);
   const deck: Card[] = [];
 

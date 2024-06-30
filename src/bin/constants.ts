@@ -13,3 +13,17 @@ export const RANK_VALUES: Record<string, number> = {
   K: 13,
   A: 14,
 };
+
+export const SUITS: Record<string, string> = {
+  HEARTS: 'hearts',
+  DIAMONDS: 'diamonds',
+  SPADES: 'spades',
+  CLUBS: 'clubs',
+};
+
+export const ACTIONS: Record<string, string> = {
+  CHECK: 'check',
+  RAISE: 'raise',
+  CALL: 'call',
+  FOLD: 'fold',
+};
