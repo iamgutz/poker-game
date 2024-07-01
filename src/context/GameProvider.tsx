@@ -32,11 +32,19 @@ export default function GameProvider({ children }: GameProviderProps) {
   );
   const [round, setRound] = useState<number>(parsedState.round || 0);
   const prevRound = usePrevious(round);
+  const prevDealerPos = usePrevious(positionDealer);
 
   const setPlayerName = (name: string) => {
     setPlayer(prev => ({
       ...prev,
       name,
+    }));
+  };
+
+  const setPlayerAvatar = (avatar: number) => {
+    setPlayer(prev => ({
+      ...prev,
+      avatar,
     }));
   };
 
@@ -46,7 +54,7 @@ export default function GameProvider({ children }: GameProviderProps) {
     setCurrentBet(0);
     setMinimumRaise(0);
     setAIPlayers(generateAIPlayers(aiPlayersNumber));
-    setPlayer(generatePlayer(player.name));
+    setPlayer(generatePlayer(player.name, player.avatar));
     setGameStarted(false);
     setDealerPosition(0);
     setBigBlindPosition(0);
@@ -92,7 +100,7 @@ export default function GameProvider({ children }: GameProviderProps) {
   }, [state]);
 
   useEffect(() => {
-    if (!player.name) {
+    if (!player) {
       const initPlayer = generatePlayer();
       setPlayer(initPlayer);
     }
@@ -107,16 +115,32 @@ export default function GameProvider({ children }: GameProviderProps) {
   }, [aiPlayersNumber, gameStarted]);
 
   useEffect(() => {
-    console.log(prevRound, round);
     if (prevRound !== undefined && round > 0 && round !== prevRound) {
       handleSetDealerPosition(state, setDealerPosition);
     }
   }, [round, prevRound, state]);
 
   useEffect(() => {
-    // set the blinds when the dealer changes
-    handleSetBlinds({ state, setBigBlindPosition, setSmallBlindPosition, setPot, setCurrentBet });
-  }, [positionDealer, state, setBigBlindPosition, setSmallBlindPosition]);
+    if (gameStarted && prevDealerPos !== undefined && prevDealerPos !== positionDealer) {
+      // set the blinds when the dealer changes
+      handleSetBlinds({
+        state,
+        setBigBlindPosition,
+        setSmallBlindPosition,
+        setPot,
+        setCurrentBet,
+        setAIPlayers,
+        setPlayer,
+      });
+    }
+  }, [
+    gameStarted,
+    positionDealer,
+    prevDealerPos,
+    state,
+    setBigBlindPosition,
+    setSmallBlindPosition,
+  ]);
 
   const contextValue = {
     state,
@@ -133,6 +157,7 @@ export default function GameProvider({ children }: GameProviderProps) {
     setRound,
     setPlayer,
     setPlayerName,
+    setPlayerAvatar,
     resetGame,
   };
 

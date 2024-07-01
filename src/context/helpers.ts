@@ -20,26 +20,38 @@ export const generateAIPlayers = (numPlayers: number) => {
   const playerNames = generateRandomAIPlayerNames(numPlayers);
   const generatedPlayers: AIPlayer[] = [];
   for (let i = 0; i < numPlayers; i++) {
+    const randomAvatar = Math.floor(Math.random() * 16) + 1;
     const aiPlayer: AIPlayer = {
-      id: i + 1,
+      id: Date.now() + i,
+      avatar: randomAvatar,
+      kind: 'cpu',
       name: playerNames[i],
       hand: [],
       currentBet: 0,
       folded: false,
-      stack: 0,
+      stack: 500,
+      isDealer: false,
+      isBigBlind: false,
+      isSmallBlind: false,
     };
     generatedPlayers.push(aiPlayer);
   }
   return generatedPlayers;
 };
 
-export const generatePlayer = (name: string = ''): Player => {
-  const generatedPlayer = {
+export const generatePlayer = (name: string = '', avatar: number = 1): Player => {
+  const generatedPlayer: Player = {
+    id: 99,
     name,
+    avatar,
+    kind: 'user',
     hand: [],
     currentBet: 0,
     folded: false,
-    stack: 0,
+    stack: 500,
+    isDealer: false,
+    isBigBlind: false,
+    isSmallBlind: false,
   };
 
   return generatedPlayer;

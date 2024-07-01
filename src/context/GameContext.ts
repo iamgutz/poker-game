@@ -31,6 +31,7 @@ export interface GameContextProps {
   setBigBlindPosition: (pos: number) => void;
   setDealerPosition: (pos: number) => void;
   setPlayerName: (name: string) => void;
+  setPlayerAvatar: (avatar: number) => void;
   resetGame: () => void;
 }
 
